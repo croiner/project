@@ -36,11 +36,21 @@
           <p class="white--text subheading mt-4">Beckham</p>
         </v-flex>
         <v-flex>
-          <Popup />
+          <Popup  @projectAdded="snackbar = true"/>
         </v-flex>
       </v-layout>
-      <v-list>
-        <v-list-item link v-for="link in links" :key="link.text" router :to="link.route">
+      <v-list v-if="$route.path == '/manager' || '/calendar'">
+        <v-list-item link v-for="link in managers" :key="link.text" router :to="link.route">
+          <v-list-item-action>
+            <v-icon class="white--text">mdi-{{link.icon}}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="white--text">{{link.text}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <v-list v-if="$route.path == '/admin' ">
+        <v-list-item link v-for="link in admins" :key="link.text" router :to="link.route">
           <v-list-item-action>
             <v-icon class="white--text">mdi-{{link.icon}}</v-icon>
           </v-list-item-action>
@@ -53,21 +63,33 @@
   </nav>
 </template>
 
+
 <script>
-import Popup from "./Popup";
 export default {
-  components: { Popup },
   data() {
     return {
       drawer: false,
       links: [
-        { icon: "home", text: "Dashboard", route: "/" },
+        { icon: "home", text: "Dashboard", route: "/dashboard" },
         { icon: "folder", text: "My Projects", route: "/projects" },
         { icon: "group", text: "Team", route: "/team" },
         { icon: "domain", text: "Data", route: "/datatable" },
         { icon: "calendar", text: "Calendar", route: "/calendar" },
+        { icon: "domain", text: "Customize Data", route: "/data" },
       ],
+      managers: [
+        { icon: "calendar", text: "Calendar", route: "/calendar" },
+        { icon: "home", text: "Work Progress", route: "/workprogress" },
+        { icon: "folder", text: "Leave", route: "/leave" },
+         { icon: "folder", text: "Chart", route: "/chart" },
+      ],
+      admins: [
+        { icon: "calendar", text: "Calendar", route: "/calendar" },
+        { icon: "domain", text: "Customize Data", route: "/data" },
+      ],
+      snackbar: false,
     };
   },
+  components: {},
 };
 </script>

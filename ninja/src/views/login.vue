@@ -1,98 +1,92 @@
-<template>
-  <v-row align="center">
-   
-      <v-text-field
-        v-model="name"
-        :counter="10"
-        :rules="nameRules"
-        label="Name"
-        required
-      ></v-text-field>
+ <template>
+  <v-app id="inspire">
+    <v-main  v-if="$route.path === '/login' " >
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
+            <v-card class="elevation-12">
+              <v-toolbar color="primary" dark flat>
+                <v-toolbar-title>Login form</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn :href="source" icon large target="_blank" v-on="on"></v-btn>
+                  </template>
+                  <span>Source</span>
+                </v-tooltip>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    label="username"
+                    name="username"
+                    prepend-icon="mdi-account"
+                    type="text"
+                    v-model="username"
+                  ></v-text-field>
 
-      <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        label="E-mail"
-        required
-      ></v-text-field>
-
-      <v-select
-        v-model="select"
-        :items="items"
-        :rules="[v => !!v || 'Item is required']"
-        label="Item"
-        required
-      ></v-select>
-
-      <v-checkbox
-        v-model="checkbox"
-        :rules="[v => !!v || 'You must agree to continue!']"
-        label="Do you agree?"
-        required
-      ></v-checkbox>
-
-      <v-btn
-        :disabled="!valid"
-        color="success"
-        class="mr-4"
-        @click="validate"
-      >
-        Validate
-      </v-btn>
-
-      <v-btn
-        color="error"
-        class="mr-4"
-        @click="reset"
-      >
-        Reset Form
-      </v-btn>
-
-      <v-btn
-        color="warning"
-        @click="resetValidation"
-      >
-        Reset Validation
-      </v-btn>
-    </v-form>
-  </v-row>
+                  <v-text-field
+                    id="password"
+                    label="Password"
+                    name="password"
+                    prepend-icon="mdi-lock"
+                    type="password"
+                    v-model="password"
+                  ></v-text-field>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" @click="Login"> >Login</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      valid: true,
-      name: '',
-      nameRules: [
-        v => !!v || 'Name is required',
-        v => (v && v.length <= 10) || 'Name must be less than 10 characters',
-      ],
-      email: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-      ],
-      select: null,
-      items: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
-      checkbox: false,
-      lazy: false,
-    }),
+export default {
+  props: {
+    source: String,
+  },
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
+  },
 
-    methods: {
-      validate () {
-        this.$refs.form.validate()
-      },
-      reset () {
-        this.$refs.form.reset()
-      },
-      resetValidation () {
-        this.$refs.form.resetValidation()
-      },
+  methods: {
+    Login: function () {
+      // console.log(this.username);
+      // console.log(this.password);
+
+console.log(this.$route.path )
+
+      if (this.username && this.password) {
+        if (this.username == "manager") {
+          let route = "manager";
+          this.$router.push(`/${route}`);
+        } else if (this.username == "user") {
+          let route = "user";
+          this.$router.push(`/${route}`);
+        } else if (this.username == "admin") {
+          let route = "admin";
+          this.$router.push(`/${route}`);
+        }else{
+          this.$router.push('/Login')
+        }
+      }
+      else {
+         this.$router.push('/Login')
+      }
     },
+  },
+  mounted: function(){
+    this.$router.push('/Login')
   }
+};
 </script>
